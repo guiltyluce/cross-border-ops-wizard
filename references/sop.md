@@ -1,14 +1,15 @@
-# Standard Node Delivery SOP
+# VPS Operations Handover SOP
 
 ## 1. Planning
 
-Collect before purchase or first operation:
+Collect before purchasing Tencent Cloud Lighthouse overseas VPS or before first operation:
 
 - business purpose
-- target region and fallback region
+- target Lighthouse region and fallback region
 - expected users/devices
 - cloud provider and account owner
-- domain and subdomain naming
+- domain/subdomain naming and DNS provider
+- whether x-ui will be deployed for team management
 - administrator model
 - handover scope
 - existing nodes that must remain untouched
@@ -26,6 +27,7 @@ public_ip=
 os=
 domain=
 role=
+xui_enabled=
 ```
 
 Run read-only probes first:
@@ -54,13 +56,14 @@ dig +short <domain>
 
 Use one SSH key per node. Do not reuse keys across unrelated nodes.
 
-## 4. Gateway Shape
+## 4. x-ui And Gateway Shape
 
 Recommended public surface:
 
 - SSH for operators.
 - HTTP health check and certificate challenge.
 - HTTPS gateway.
+- x-ui management entry protected by a randomized path, strong credentials, and an explicit firewall policy.
 
 Keep internal admin services bound to local interfaces or protected by cloud
 firewall rules. Public gateway paths should be randomized and protected by
@@ -74,6 +77,7 @@ Cloud firewall and system firewall must agree. Document:
 - private ports
 - intended source ranges
 - health check path
+- x-ui panel exposure model
 - rollback command
 
 Never flush firewall rules casually on a production node.
@@ -91,5 +95,6 @@ Produce:
 - sensitive handover manual
 - local verification log
 - next-maintenance checklist
+- x-ui administrator access notes when approved by the user
 
 Keep credentials and private links out of public git repositories.

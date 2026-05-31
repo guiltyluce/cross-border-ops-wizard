@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Render neutral node handover material skeletons.")
+    parser = argparse.ArgumentParser(description="Render VPS operations handover material skeletons.")
     parser.add_argument("--alias", required=True)
     parser.add_argument("--domain", required=True)
     parser.add_argument("--public-ip", required=True)
@@ -15,7 +15,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--region", default="TBD")
     parser.add_argument("--instance-id", default="TBD")
     parser.add_argument("--os", default="TBD")
-    parser.add_argument("--role", default="cross-border node")
+    parser.add_argument("--role", default="cross-border tool node")
+    parser.add_argument("--xui", action="store_true", help="Include x-ui deployment and handover sections.")
     parser.add_argument("--out-dir", default="output/node-materials")
     return parser.parse_args()
 
@@ -45,6 +46,7 @@ Generated: {today}
 - Domain: `{args.domain}`
 - OS: `{args.os}`
 - Role: `{args.role}`
+- x-ui enabled: `{str(args.xui).lower()}`
 
 ## DNS
 
@@ -65,6 +67,13 @@ ssh {args.alias} 'hostname; uptime; systemctl --failed --no-pager'
 ```bash
 curl --noproxy '*' -4sS -o /dev/null -w 'health=%{{http_code}} ip=%{{remote_ip}}\\n' http://{args.domain}/healthz
 echo | openssl s_client -connect {args.domain}:443 -servername {args.domain} 2>/dev/null | openssl x509 -noout -issuer -subject -dates
+```
+
+## x-ui Checks
+
+```bash
+ssh {args.alias} 'systemctl status x-ui --no-pager || systemctl status xui --no-pager || true'
+ssh {args.alias} 'journalctl -u x-ui -n 80 --no-pager || journalctl -u xui -n 80 --no-pager || true'
 ```
 
 ## Notes
@@ -90,7 +99,7 @@ This file may contain private operational details. Store it with mode `600`.
 
 ## Private Access Notes
 
-- Administrator URL/path: TBD
+- x-ui administrator URL/path: TBD
 - Credential owner: TBD
 - Rotation date: TBD
 
