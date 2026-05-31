@@ -9,6 +9,14 @@ ssh <alias> 'ss -ltnp'
 ssh <alias> 'journalctl -n 120 --no-pager'
 ```
 
+When x-ui is part of the delivery scope, also check its service state and logs
+according to the installed distribution:
+
+```bash
+ssh <alias> 'systemctl status x-ui --no-pager || systemctl status xui --no-pager || true'
+ssh <alias> 'journalctl -u x-ui -n 80 --no-pager || journalctl -u xui -n 80 --no-pager || true'
+```
+
 ## DNS Checks
 
 ```bash
@@ -44,6 +52,13 @@ Expected results depend on the agreed design. Public ports should be reachable;
 private/admin ports should fail from the public internet unless explicitly
 approved.
 
+For x-ui, verify:
+
+- panel is reachable only through the intended domain/path or protected route
+- administrator login works
+- generated team links use the public domain, not `127.0.0.1` or a temporary tunnel
+- credentials and links are recorded only in the sensitive handover material
+
 ## Speed Checks
 
 Separate directions:
@@ -60,6 +75,8 @@ Do not treat a single client-side speed number as the whole diagnosis.
 - Cloud firewall and system firewall disagree.
 - Certificate was issued for a different domain.
 - Gateway path or authentication is wrong.
+- x-ui is listening locally but the gateway route is missing.
+- x-ui links were copied from the wrong host or tunnel.
 - Service is healthy locally but blocked publicly.
 - Browser or client cached an old endpoint.
 

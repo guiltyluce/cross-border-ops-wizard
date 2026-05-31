@@ -15,6 +15,7 @@ destination.
 
 - provider, region, instance ID, IP, OS, SSH alias and role
 - DNS record
+- x-ui deployment status and management entry model
 - public/private port model
 - gateway and certificate layout
 - verification commands and expected results
@@ -26,6 +27,7 @@ destination.
 
 - delivery status table
 - administrator access notes
+- x-ui panel URL/path and account owner, only when approved
 - credential storage locations
 - private links or tokens only when approved
 - common troubleshooting
@@ -40,6 +42,7 @@ When finishing a node, report:
 - target IP/domain/alias
 - whether existing nodes were left untouched
 - DNS and certificate result
+- x-ui panel and team access verification result
 - public/private port exposure
 - verification summary
 - local docs created
