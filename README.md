@@ -50,7 +50,7 @@ python3 scripts/render_node_materials.py --help
 
 ## Skill 安装
 
-参赛上传包位置：
+Skill 分发包位置：
 
 ```text
 skill/cross-border-ops-wizard/cross-border-ops-wizard.zip
@@ -62,14 +62,6 @@ skill/cross-border-ops-wizard/cross-border-ops-wizard.zip
 mkdir -p ~/.codex/skills
 unzip -o skill/cross-border-ops-wizard/cross-border-ops-wizard.zip -d ~/.codex/skills/
 ```
-
-## 参赛信息
-
-- 作品名称：跨境运维魔法师
-- 推荐赛道：Skill 技能赛道
-- 推荐行业：专业服务
-- 推荐场景：办公提效
-- 一句话描述：标准化跨境节点规划、验收、排障和交付文档。
 
 ## License
 
