@@ -5,6 +5,8 @@ description: VPS 运维纳管魔法师：面向同时购买腾讯云 Lighthouse 
 
 # VPS 运维纳管魔法师
 
+GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross-border-ops-wizard)
+
 用于帮助团队把腾讯云 Lighthouse 境外 VPS 和域名从“刚买好”推进到“x-ui 管理界面可用、团队能接入、后续可维护”的状态。它关注采购信息确认、主机纳管、DNS、证书、x-ui 部署、网关入口、端口边界、稳定性检查和交接文档。
 
 # 触发场景
