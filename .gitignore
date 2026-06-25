@@ -9,3 +9,6 @@ venv/
 output/
 .skill-package-staging/
 *.log
+
+# packaged skill artifact (regenerate via validate_skill_package.py --zip)
+skill/**/*.zip

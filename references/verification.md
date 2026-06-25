@@ -69,6 +69,42 @@ Separate directions:
 
 Do not treat a single client-side speed number as the whole diagnosis.
 
+## Route / Packet-Loss Diagnosis (when users report "slow download")
+
+Most "slow" reports on a healthy node are a path problem on the VPS-to-client
+segment, not the server. Localize by elimination, in order:
+
+1. Prove the server side is healthy (fast egress, not a bandwidth cap):
+
+```bash
+ssh <alias> 'sysctl -n net.ipv4.tcp_congestion_control net.core.default_qdisc'   # expect bbr / fq
+ssh <alias> 'curl -4 -o /dev/null --max-time 20 -w "speed=%{speed_download}B/s\n" \
+  https://speedtest.tokyo2.linode.com/100MB-tokyo2.bin'                          # use a region-near IPv4 mirror; a far mirror (e.g. EU) is not a fair test
+```
+
+2. Measure the VPS-to-China-ISP path quality (loss + route). Run during the
+   user's actual peak hours, since congestion is time-of-day dependent:
+
+```bash
+ssh <alias> 'for ip in 202.96.209.133 119.29.29.29; do \
+  printf "%s " "$ip"; ping -c 20 -i 0.2 -W 2 -q "$ip" | grep -E "packet loss|rtt"; done'
+ssh <alias> 'traceroute -n -w 2 -q 1 -m 15 202.96.209.133'   # 202.97.x = China Telecom 163 (congested); CN2/优化线路 routes differ
+```
+
+3. Read the client (v2rayN/xray) log. Key signals and meaning:
+
+- `dial tcp <node-ip>:443: i/o timeout` (intermittent) = SYN loss on the path
+- `dns: exchange failed ... context deadline exceeded / EOF` = DNS over a lossy
+  tunnel; symptom of loss, not a DNS config bug
+- `当前延迟: -1 ms，none` = node probe timed out under loss; traffic may still
+  flow. `-1ms` alone does not mean the node is down.
+
+Interpretation: high loss (e.g. 10-20%) on a generic Tencent/100MB 163 route at
+peak hour collapses TCP/Reality throughput and times out DNS. Server tuning
+(BBR is already the best lever) cannot fix the line. Real fixes: try a
+better-peered landing IP, or add a CN2/IPLC relay in front
+(`client -> relay -> node`). Confirm the diagnosis cheaply by retesting off-peak.
+
 ## Common Failures
 
 - DNS has not propagated.
