@@ -22,6 +22,7 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - Target host identity verification and SSH onboarding.
 - DNS and certificate checks.
 - x-ui admin-panel deployment flow, entry model, and account handover boundaries.
+- One-click node engine `scripts/node-wizard.sh` (deploy/verify/panel-open/panel-close/links/rollback).
 - Public/private port boundary design.
 - Service, log, network, and team-availability verification.
 - Local runbook and sensitive handover skeleton generation.

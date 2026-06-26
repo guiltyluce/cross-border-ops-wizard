@@ -1,6 +1,6 @@
 ---
 name: cross-border-ops-wizard
-version: 0.2.0
+version: 0.3.0
 description: Use when turning a freshly provisioned overseas VPS into a working proxy node with an x-ui/3x-ui admin panel and team subscriptions. 触发：新 VPS 搭代理、部署 x-ui/3x-ui 面板、配置 DNS/证书/HTTPS 网关/防火墙边界、分发 VLESS/Reality 订阅、生成交付 runbook 与敏感手册；排查节点不可达、证书异常、端口不通、面板打不开、下载慢/丢包/线路差。适用任意云厂商（腾讯云 Lighthouse 为内置 profile），适配 Claude Code、Codex、WorkBuddy、OpenClaw 等智能体。
 ---
 
@@ -44,6 +44,7 @@ GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross
 3. x-ui、网关与证书：
    - 配置域名解析。
    - 按目标系统安装并初始化 x-ui / 3x-ui 管理界面。
+   - 一键部署可用 `scripts/node-wizard.sh deploy --alias <a> [--domain <d>]`（幂等；preflight 不过会给云操作清单并退出，修好重跑）。
    - 配置 HTTP 健康检查、HTTPS 网关和面板入口。
    - 申请并验证证书。
 4. 端口与边界：
@@ -77,6 +78,15 @@ python3 scripts/render_node_materials.py \
 - HTTPS 证书是否匹配域名。
 - 公开端口和私有端口是否符合设计。
 - 服务日志是否没有持续报错。
+
+一键起节点 / 验收 / 开关后台（在 VPS 上以 root 运行；任意 agent 经 SSH 调用）：
+
+```bash
+ssh <alias> 'bash -s' < scripts/node-wizard.sh deploy --alias <a> --domain <d>
+ssh <alias> 'bash -s' < scripts/node-wizard.sh verify --alias <a>
+ssh <alias> 'bash -s' < scripts/node-wizard.sh panel-open --alias <a> --domain <d>
+ssh <alias> 'bash -s' < scripts/node-wizard.sh panel-close --alias <a>
+```
 
 # 注意事项
 
