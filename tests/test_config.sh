@@ -17,5 +17,8 @@ assert_contains "nginx server_name" "$ncfg" "n.example.com"
 assert_contains "nginx panel proxy" "$ncfg" "127.0.0.1:35179"
 assert_contains "nginx random path" "$ncfg" "WEBPATH"
 assert_contains "nginx listen gw"   "$ncfg" "listen 35178 ssl"
+assert_contains "nginx sub route"   "$ncfg" "location /sub/"
+assert_contains "nginx sub backend" "$ncfg" "127.0.0.1:2096"
+assert_contains "nginx panel http"  "$ncfg" "proxy_pass http://127.0.0.1:35179/"
 
 finish

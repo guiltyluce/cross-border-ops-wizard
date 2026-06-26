@@ -16,7 +16,18 @@ Versioning follows [SemVer](https://semver.org/). Each release is also a git tag
 - Library split under `scripts/lib/` (common, secrets, links, preflight, config,
   verify, deploy, panel, rollback).
 
-## [0.2.0] - 2026-06-25
+### Fixed (from final review, pre-real-VPS hardening)
+- Idempotent re-run: `deploy` now reuses existing per-node secrets instead of
+  regenerating them (was invalidating client subscriptions).
+- Robust entrypoint path resolution + multi-file shipping model documented
+  (engine is entrypoint + `lib/`; sync `scripts/` to the host then run).
+- Cert phase reordered after firewall, guarded against re-issue, and frees port 80
+  for the standalone HTTP-01 challenge.
+- nginx gateway uses HTTP upstream to the x-ui panel, adds the `/sub/` route, and
+  writes `/etc/nginx/ops.htpasswd`; x-ui panel bound to `127.0.0.1`.
+
+> Note: some real-VPS specifics (exact 3x-ui setting flags, acme mode, port
+> behaviors) still require validation in the Task 12 real-VPS acceptance run.
 
 ### Changed
 - Rewrote `SKILL.md` `description` to trigger-style ("Use when…"), dropped the

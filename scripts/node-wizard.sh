@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HERE="${WIZARD_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd)}"
+if [ -z "${HERE:-}" ] || [ ! -f "$HERE/lib/common.sh" ]; then
+  echo "[error] 找不到引擎 lib/。本引擎是多文件结构：请先把整个 scripts/ 目录同步到主机后在该目录运行，或设置 WIZARD_HOME=/path/to/scripts。" >&2
+  exit 1
+fi
 . "$HERE/lib/common.sh"
 
 usage(){ cat >&2 <<'EOF'

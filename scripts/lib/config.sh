@@ -39,11 +39,13 @@ server {
   ssl_certificate     /root/cert/$domain/fullchain.pem;
   ssl_certificate_key /root/cert/$domain/privkey.pem;
   location = /healthz { return 200 'ok'; }
+  location /sub/ {
+    proxy_pass http://127.0.0.1:$SUB_BACKEND_PORT;
+  }
   location /$web/ {
     auth_basic "ops";
     auth_basic_user_file /etc/nginx/ops.htpasswd;
-    proxy_pass https://127.0.0.1:35179/;
-    proxy_ssl_verify off;
+    proxy_pass http://127.0.0.1:35179/;
   }
 }
 EOF
