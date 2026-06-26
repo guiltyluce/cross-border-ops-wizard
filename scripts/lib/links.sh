@@ -14,3 +14,9 @@ build_sub_url(){
   [ -n "$domain" ] || { printf ''; return 0; }
   printf 'https://%s:%s/sub/%s' "$domain" "$GATEWAY_PORT" "$path"
 }
+
+cmd_links(){
+  . "/root/ops-secrets/$ALIAS.env"
+  build_vless_link "$UUID" "${DOMAIN:-$(self_ip)}" "$REALITY_PUBLIC" "$SHORT_ID"; echo
+  local sub; sub="$(build_sub_url "$DOMAIN" "$WEB_PATH")"; [ -n "$sub" ] && echo "$sub"
+}
