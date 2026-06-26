@@ -22,6 +22,7 @@
 - 目标主机身份确认和 SSH 纳管。
 - DNS 与证书检查。
 - x-ui 管理界面部署流程、面板入口和账号交接边界。
+- 一键起节点引擎 `scripts/node-wizard.sh`（deploy/verify/panel-open/panel-close/links/rollback）。
 - 公开/私有端口边界设计。
 - 服务状态、日志、网络连通性和团队可用性验收。
 - 本地 runbook 和敏感交付手册骨架生成。

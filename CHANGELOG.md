@@ -3,6 +3,19 @@
 All notable changes to `cross-border-ops-wizard` are documented here.
 Versioning follows [SemVer](https://semver.org/). Each release is also a git tag.
 
+## [0.3.0] - 2026-06-26
+
+### Added
+- `scripts/node-wizard.sh` one-click engine with subcommands: `deploy`, `verify`,
+  `panel-open`, `panel-close`, `links`, `rollback`.
+- Idempotent provisioning of xray VLESS Reality (443) + x-ui panel bound to
+  localhost (public admin gateway only on demand via `panel-open`).
+- Semi-auto preflight gate (DNS + cloud firewall) that prints an actionable
+  checklist and exits when the manual cloud step is not yet done.
+- Zero-dependency bash test harness under `tests/` (10 suites).
+- Library split under `scripts/lib/` (common, secrets, links, preflight, config,
+  verify, deploy, panel, rollback).
+
 ## [0.2.0] - 2026-06-25
 
 ### Changed
