@@ -79,13 +79,16 @@ python3 scripts/render_node_materials.py \
 - 公开端口和私有端口是否符合设计。
 - 服务日志是否没有持续报错。
 
-一键起节点 / 验收 / 开关后台（在 VPS 上以 root 运行；任意 agent 经 SSH 调用）：
+一键起节点 / 验收 / 开关后台。引擎是多文件结构（entrypoint + `lib/`），需先把整个 `scripts/` 目录同步到 VPS 再以 root 运行（任意 agent 经 SSH 调用同一命令）：
 
 ```bash
-ssh <alias> 'bash -s' < scripts/node-wizard.sh deploy --alias <a> --domain <d>
-ssh <alias> 'bash -s' < scripts/node-wizard.sh verify --alias <a>
-ssh <alias> 'bash -s' < scripts/node-wizard.sh panel-open --alias <a> --domain <d>
-ssh <alias> 'bash -s' < scripts/node-wizard.sh panel-close --alias <a>
+# 1) 同步引擎到 VPS（首次或更新时各一次）
+rsync -a scripts/ <alias>:/opt/node-wizard/
+# 2) 以 root 运行
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh deploy --alias <a> --domain <d>'
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh verify --alias <a>'
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh panel-open --alias <a> --domain <d>'
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh panel-close --alias <a>'
 ```
 
 # 注意事项
