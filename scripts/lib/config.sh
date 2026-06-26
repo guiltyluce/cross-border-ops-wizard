@@ -4,6 +4,7 @@
 # render_xray_config <uuid> <private_key> <short_id>
 render_xray_config(){
   local uuid="$1" priv="$2" sid="$3"
+  case "$uuid$priv$sid" in *[\`\$]*) die "render_xray_config: illegal characters in arguments";; esac
   cat <<EOF
 {
   "inbounds": [{
@@ -30,6 +31,7 @@ EOF
 # render_nginx_gateway <domain> <web_path>
 render_nginx_gateway(){
   local domain="$1" web="$2"
+  case "$domain$web" in *[\`\$]*) die "render_nginx_gateway: illegal characters in arguments";; esac
   cat <<EOF
 server {
   listen 35178 ssl;

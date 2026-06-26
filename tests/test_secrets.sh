@@ -10,6 +10,8 @@ case "$p" in *[!a-zA-Z0-9]*) _fail "path charset: $p";; esac; TESTS_RUN=$((TESTS
 
 # subid：sub- 前缀 + 16 hex
 s="$(gen_subid)"; assert_contains "subid prefix" "$s" "sub-"
+assert_eq "subid len" "${#s}" "20"
+case "${s#sub-}" in *[!a-f0-9]*) _fail "subid hex charset: $s";; esac; TESTS_RUN=$((TESTS_RUN+1))
 
 # basic auth：user:passhash 形式（htpasswd bcrypt 以 $2 开头）；此处用占位 hasher 注入
 hash_password(){ printf 'HASHED(%s)' "$1"; }   # 测试用桩

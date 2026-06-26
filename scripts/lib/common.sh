@@ -12,7 +12,7 @@ die(){ printf '[error] %s\n' "$*" >&2; exit 1; }
 # run: execute, or under DRY_RUN=1 just print the command.
 run(){
   if [ "${DRY_RUN:-0}" = "1" ]; then
-    printf 'RUN: %s\n' "$*"
+    printf 'RUN:'; printf ' %q' "$@"; printf '\n'
   else
     "$@"
   fi

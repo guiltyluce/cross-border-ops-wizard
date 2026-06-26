@@ -12,7 +12,7 @@ verify_summarize(){
 }
 
 # Live checks (used by cmd_verify on a real host).
-check_services(){ systemctl is-active --quiet x-ui nginx firewalld sshd && echo 1 || echo 0; }
+check_services(){ systemctl is-active --quiet x-ui nginx firewalld sshd 2>/dev/null && echo 1 || echo 0; }
 check_reality443(){ ss -ltn '( sport = :443 )' | grep -q ':443' && echo 1 || echo 0; }
 check_panel_local(){ ss -ltn | grep -q '127.0.0.1:35179' && echo 1 || echo 0; }
 check_bbr(){ [ "$(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)" = "bbr" ] && echo 1 || echo 0; }
