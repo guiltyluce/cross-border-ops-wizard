@@ -3,13 +3,13 @@
 
 dns_resolve(){ dig +short "$1" A | tail -n1; }
 self_ip(){ curl -4fsS --max-time 8 https://api.ipify.org 2>/dev/null || hostname -I | awk '{print $1}'; }
-tcp_open(){ nc -z -G 5 "$1" "$2" >/dev/null 2>&1; }   # tcp_open <ip> <port>
+tcp_open(){ nc -z -w 5 "$1" "$2" >/dev/null 2>&1; }   # tcp_open <ip> <port>; -w works on GNU & BSD nc
 
 # preflight_gate <domain-or-empty> <port>...
 # returns 0 if ready; otherwise prints a checklist to stderr and returns 1.
 preflight_gate(){
   local domain="$1"; shift
-  local ports="$*" ip ready=0 lines=""
+  local ip ready=0 lines=""
   ip="$(self_ip)"
   if [ -n "$domain" ]; then
     local resolved; resolved="$(dns_resolve "$domain")"
@@ -19,7 +19,7 @@ preflight_gate(){
     fi
   fi
   local p
-  for p in $ports; do
+  for p in "$@"; do
     if ! tcp_open "$ip" "$p"; then
       ready=1
       lines="${lines}- 在云防火墙（如腾讯轻量控制台）放行 TCP 端口 ${p}\n"
