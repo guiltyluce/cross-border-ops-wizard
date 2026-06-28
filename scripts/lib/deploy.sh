@@ -17,6 +17,8 @@ DOMAIN=$DOMAIN
 UUID=$UUID
 REALITY_PRIVATE=$PRIV
 REALITY_PUBLIC=$PUB
+REALITY_SNI=$REALITY_SNI
+REALITY_DEST=$REALITY_DEST
 SHORT_ID=$SID
 WEB_PATH=$WEBPATH
 BASIC_AUTH=$BASIC
@@ -40,6 +42,8 @@ deploy_configure(){
     log "configure: 复用已有 secrets（幂等重跑）"
     . "/root/ops-secrets/$ALIAS.env"
     PRIV="$REALITY_PRIVATE"; PUB="$REALITY_PUBLIC"; SID="$SHORT_ID"; WEBPATH="$WEB_PATH"; BASIC="$BASIC_AUTH"
+    REALITY_SNI="${REALITY_SNI:-www.apple.com}"
+    REALITY_DEST="${REALITY_DEST:-$REALITY_SNI:$PROXY_PORT}"
   else
     read -r PRIV PUB <<<"$(gen_reality_keys)"
     UUID="$(gen_uuid)"; SID="$(gen_subid)"; WEBPATH="$(gen_path)"; BASIC="$(gen_basic_auth opsadmin)"

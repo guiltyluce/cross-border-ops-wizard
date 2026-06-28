@@ -16,6 +16,7 @@ destination.
 - provider, region, instance ID, IP, OS, SSH alias and role
 - DNS record
 - x-ui deployment status and management entry model
+- Reality SNI/dest and whether the target was validated from a real client path
 - public/private port model
 - gateway and certificate layout
 - verification commands and expected results
@@ -30,6 +31,7 @@ destination.
 - x-ui panel URL/path and account owner, only when approved
 - credential storage locations
 - private links or tokens only when approved
+- client persistence notes when Clash/Mihomo or mobile clients must be updated
 - common troubleshooting
 - next-stage suggestions
 
@@ -43,6 +45,7 @@ When finishing a node, report:
 - whether existing nodes were left untouched
 - DNS and certificate result
 - x-ui panel and team access verification result
+- Reality target/SNI verification result
 - public/private port exposure
 - verification summary
 - local docs created

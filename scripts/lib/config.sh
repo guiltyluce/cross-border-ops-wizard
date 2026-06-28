@@ -16,7 +16,7 @@ render_xray_config(){
       "network": "tcp",
       "security": "reality",
       "realitySettings": {
-        "dest": "$REALITY_SNI:443",
+        "dest": "$REALITY_DEST",
         "serverNames": ["$REALITY_SNI"],
         "privateKey": "$priv",
         "shortIds": ["$sid"]
