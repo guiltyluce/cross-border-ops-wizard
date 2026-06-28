@@ -69,6 +69,24 @@ Keep internal admin services bound to local interfaces or protected by cloud
 firewall rules. Public gateway paths should be randomized and protected by
 strong authentication when management access is required.
 
+Reality defaults for new VLESS nodes:
+
+```text
+REALITY_SNI=www.apple.com
+REALITY_DEST=www.apple.com:443
+```
+
+Do not blindly hard-code a target site. If a node uses another Reality target,
+record it in the sensitive handover material and verify it from a real client
+path before distribution. When changing a target on an existing node, update
+server config, VLESS `sni`, client imports/subscriptions, and any disk-backed
+client config together.
+
+x-ui should have a restart policy for process exits, plus a monitor or
+healthcheck for operator mistakes. `Restart=always` is useful for crashes, but
+it is not a complete replacement for detecting a deliberate stop or a gateway
+502.
+
 ## 5. Firewall Boundary
 
 Cloud firewall and system firewall must agree. Document:

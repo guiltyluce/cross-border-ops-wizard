@@ -4,7 +4,8 @@ PROXY_PORT=443
 GATEWAY_PORT=35178
 PANEL_PORT=35179
 SUB_BACKEND_PORT=2096
-REALITY_SNI="${REALITY_SNI:-www.microsoft.com}"
+REALITY_SNI="${REALITY_SNI:-www.apple.com}"
+REALITY_DEST="${REALITY_DEST:-$REALITY_SNI:$PROXY_PORT}"
 
 log(){ printf '[%s] %s\n' "$(date +%H:%M:%S)" "$*" >&2; }
 die(){ printf '[error] %s\n' "$*" >&2; exit 1; }

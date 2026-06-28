@@ -3,6 +3,20 @@
 All notable changes to `cross-border-ops-wizard` are documented here.
 Versioning follows [SemVer](https://semver.org/). Each release is also a git tag.
 
+## [0.3.1] - 2026-06-29
+
+### Fixed
+- Changed the default Reality SNI from `www.microsoft.com` to `www.apple.com`.
+- Added `REALITY_DEST` so deployments can pin a validated target separately
+  from the client-facing SNI.
+- Persisted Reality SNI/dest into `/root/ops-secrets/<alias>.env` for future
+  idempotent runs.
+
+### Added
+- Incident triage guidance for service state, direct `curl --noproxy '*'`,
+  Clash/Mihomo fake-ip, Reality EOF, and client configuration persistence.
+- Tests for default Reality SNI/dest and explicit target overrides.
+
 ## [0.3.0] - 2026-06-26
 
 ### Added

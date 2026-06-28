@@ -17,5 +17,7 @@ assert_eq "dryrun prints" "$out" "RUN: echo hello"
 assert_eq "proxy port"   "$PROXY_PORT" "443"
 assert_eq "gateway port" "$GATEWAY_PORT" "35178"
 assert_eq "panel port"   "$PANEL_PORT" "35179"
+assert_eq "default reality sni" "$REALITY_SNI" "www.apple.com"
+assert_eq "default reality dest" "$REALITY_DEST" "www.apple.com:443"
 
 finish
