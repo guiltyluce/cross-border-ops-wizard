@@ -1,6 +1,6 @@
 ---
 name: cross-border-ops-wizard
-version: 0.2.0
+version: 0.3.1
 description: Use when turning a freshly provisioned overseas VPS into a working proxy node with an x-ui/3x-ui admin panel and team subscriptions. 触发：新 VPS 搭代理、部署 x-ui/3x-ui 面板、配置 DNS/证书/HTTPS 网关/防火墙边界、分发 VLESS/Reality 订阅、生成交付 runbook 与敏感手册；排查节点不可达、证书异常、端口不通、面板打不开、下载慢/丢包/线路差。适用任意云厂商（腾讯云 Lighthouse 为内置 profile），适配 Claude Code、Codex、WorkBuddy、OpenClaw 等智能体。
 ---
 
@@ -22,6 +22,7 @@ GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross
 - 希望部署 x-ui / 3x-ui 管理界面，方便团队接入、维护跨境工具。
 - 配置 DNS、证书、HTTPS 网关、面板入口和健康检查。
 - 排查节点不可达、证书异常、端口不通、面板不可访问、下载慢/丢包/线路差。
+- 排查 VLESS/Reality 全线 EOF、Clash/Mihomo fake-ip、客户端配置热加载后重启回滚等复合故障。
 - 生成运维 runbook、交付手册、敏感信息清单。
 - 对已有节点做阶段性验收和交接。
 
@@ -44,6 +45,7 @@ GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross
 3. x-ui、网关与证书：
    - 配置域名解析。
    - 按目标系统安装并初始化 x-ui / 3x-ui 管理界面。
+   - 一键部署可用 `scripts/node-wizard.sh deploy --alias <a> [--domain <d>]`（幂等；preflight 不过会给云操作清单并退出，修好重跑）。
    - 配置 HTTP 健康检查、HTTPS 网关和面板入口。
    - 申请并验证证书。
 4. 端口与边界：
@@ -52,6 +54,7 @@ GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross
 5. 验收：
    - 参考 `references/verification.md` 执行服务、端口、HTTP/TLS、速度和日志检查。
    - 用户反馈“下载慢/卡”时，按 verification.md 的“线路与丢包诊断”分段定位（先排除服务端，再看 VPS↔客户端这一段的丢包/路由），不要只看客户端测速数字。
+   - VLESS/Reality 故障按 verification.md 的事故排查顺序分层处理，不要先重装或重生密钥。
 6. 文档：
    - 参考 `references/documentation.md` 输出 runbook、敏感交付手册和操作命令。
    - 使用 `scripts/render_node_materials.py` 生成本地材料骨架。
@@ -77,6 +80,18 @@ python3 scripts/render_node_materials.py \
 - HTTPS 证书是否匹配域名。
 - 公开端口和私有端口是否符合设计。
 - 服务日志是否没有持续报错。
+
+一键起节点 / 验收 / 开关后台。引擎是多文件结构（entrypoint + `lib/`），需先把整个 `scripts/` 目录同步到 VPS 再以 root 运行（任意 agent 经 SSH 调用同一命令）：
+
+```bash
+# 1) 同步引擎到 VPS（首次或更新时各一次）
+rsync -a scripts/ <alias>:/opt/node-wizard/
+# 2) 以 root 运行
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh deploy --alias <a> --domain <d>'
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh verify --alias <a>'
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh panel-open --alias <a> --domain <d>'
+ssh <alias> 'bash /opt/node-wizard/node-wizard.sh panel-close --alias <a>'
+```
 
 # 注意事项
 

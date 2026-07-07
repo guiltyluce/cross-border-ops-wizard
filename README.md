@@ -2,6 +2,8 @@
 
 中文 | [English](README.en.md)
 
+当前版本：`0.3.1`
+
 `cross-border-ops-wizard` 是一个面向团队跨境工具运维的 VPS 纳管 Skill。典型场景是拿到一台**新开的境外 VPS（任意云厂商）**后，快速完成主机纳管、域名解析、证书配置、x-ui / 3x-ui 管理界面部署、健康检查、团队交付和后续维护。**腾讯云 Lighthouse 作为内置 profile**，其他云按同一套流程纳管。
 
 它聚焦“开机能部署、部署后能验收、交付后能维护”的完整流程，并适配 **Claude Code、Codex、WorkBuddy、OpenClaw** 等多种智能体。仓库只保留方法、模板和检查脚本，不包含真实服务器凭据、后台地址或私有链接。
@@ -13,6 +15,7 @@
 - 部署 x-ui / 3x-ui 管理界面，方便团队使用和维护跨境工具。
 - DNS、证书、HTTPS 网关、面板入口和健康检查配置。
 - 节点不可达、证书异常、端口不通、下载慢/丢包/线路差等问题排查。
+- VLESS/Reality EOF、Clash/Mihomo fake-ip、客户端热加载未持久化等复合故障排查。
 - 为团队交接生成 runbook 和敏感信息清单。
 - 将跨境工具的部署、验收、交接和日常维护沉淀为可复用 SOP。
 
@@ -22,6 +25,7 @@
 - 目标主机身份确认和 SSH 纳管。
 - DNS 与证书检查。
 - x-ui 管理界面部署流程、面板入口和账号交接边界。
+- 一键起节点引擎 `scripts/node-wizard.sh`（deploy/verify/panel-open/panel-close/links/rollback）。
 - 公开/私有端口边界设计。
 - 服务状态、日志、网络连通性和团队可用性验收。
 - 本地 runbook 和敏感交付手册骨架生成。
@@ -32,15 +36,23 @@
 ```text
 .
 ├── README.md
+├── README.en.md
 ├── LICENSE
+├── CHANGELOG.md
+├── VERSION
+├── docs/
+│   └── superpowers/          # 一键引擎的设计 spec 与实施计划
 ├── references/
 │   ├── documentation.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/
 │   ├── install.sh
+│   ├── node-wizard.sh        # 一键起节点引擎入口
+│   ├── lib/                  # 引擎库（secrets/preflight/config/verify/deploy/panel/rollback…）
 │   ├── render_node_materials.py
 │   └── validate_skill_package.py
+├── tests/                    # 零依赖 bash 测试（tests/run.sh 一键全跑）
 └── skill/
     └── cross-border-ops-wizard/
         └── SKILL.md

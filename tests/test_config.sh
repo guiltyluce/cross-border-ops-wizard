@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -u
+. "$(dirname "$0")/lib.sh"
+. "$(dirname "$0")/../scripts/lib/common.sh"
+. "$(dirname "$0")/../scripts/lib/config.sh"
+
+cfg="$(render_xray_config UUIDX PRIVX SIDX)"
+assert_contains "xray port"   "$cfg" "\"port\": 443"
+assert_contains "xray flow"   "$cfg" "xtls-rprx-vision"
+assert_contains "xray reality" "$cfg" "\"security\": \"reality\""
+assert_contains "xray uuid"   "$cfg" "UUIDX"
+assert_contains "xray priv"   "$cfg" "PRIVX"
+assert_contains "xray dest"   "$cfg" "www.apple.com:443"
+assert_contains "xray sni"    "$cfg" "\"www.apple.com\""
+
+REALITY_SNI=target.example.com
+REALITY_DEST=target.example.com:8443
+cfg_custom="$(render_xray_config UUIDX PRIVX SIDX)"
+assert_contains "xray custom dest" "$cfg_custom" "target.example.com:8443"
+assert_contains "xray custom sni"  "$cfg_custom" "\"target.example.com\""
+
+ncfg="$(render_nginx_gateway n.example.com WEBPATH)"
+assert_contains "nginx server_name" "$ncfg" "n.example.com"
+assert_contains "nginx panel proxy" "$ncfg" "127.0.0.1:35179"
+assert_contains "nginx random path" "$ncfg" "WEBPATH"
+assert_contains "nginx listen gw"   "$ncfg" "listen 35178 ssl"
+assert_contains "nginx sub route"   "$ncfg" "location /sub/"
+assert_contains "nginx sub backend" "$ncfg" "127.0.0.1:2096"
+assert_contains "nginx panel http"  "$ncfg" "proxy_pass http://127.0.0.1:35179/"
+
+finish

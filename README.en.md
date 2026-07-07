@@ -2,6 +2,8 @@
 
 [中文](README.md) | English
 
+Current version: `0.3.1`
+
 `cross-border-ops-wizard` is a VPS operations Skill for teams maintaining cross-border tooling. A typical use case starts with a **freshly provisioned overseas VPS (any cloud provider)**, then proceeds through host onboarding, DNS, certificates, x-ui / 3x-ui admin panel deployment, health checks, team handover, and ongoing maintenance. **Tencent Cloud Lighthouse ships as a built-in profile**; other clouds use the same flow.
 
 It focuses on the full path from "provisioned" to "deployed, verified, handed over, and maintainable", and works across **Claude Code, Codex, WorkBuddy, and OpenClaw**. This repository only contains methods, templates, and check scripts; it does not contain real server credentials, admin URLs, or private links.
@@ -13,6 +15,7 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - Deploy an x-ui / 3x-ui management panel so the team can use and maintain cross-border tooling.
 - Configure DNS, certificates, HTTPS gateway, panel entry, and health checks.
 - Troubleshoot unreachable nodes, certificate issues, closed ports, and slow/lossy paths.
+- Triage VLESS/Reality EOF, Clash/Mihomo fake-ip, and client hot-reload persistence failures.
 - Generate a team handover runbook and sensitive-information checklist.
 - Turn deployment, verification, handover, and maintenance into a reusable SOP.
 
@@ -22,6 +25,7 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - Target host identity verification and SSH onboarding.
 - DNS and certificate checks.
 - x-ui admin-panel deployment flow, entry model, and account handover boundaries.
+- One-click node engine `scripts/node-wizard.sh` (deploy/verify/panel-open/panel-close/links/rollback).
 - Public/private port boundary design.
 - Service, log, network, and team-availability verification.
 - Local runbook and sensitive handover skeleton generation.
@@ -32,15 +36,23 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 ```text
 .
 ├── README.md
+├── README.en.md
 ├── LICENSE
+├── CHANGELOG.md
+├── VERSION
+├── docs/
+│   └── superpowers/          # design spec + implementation plan for the engine
 ├── references/
 │   ├── documentation.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/
 │   ├── install.sh
+│   ├── node-wizard.sh        # one-click node engine entrypoint
+│   ├── lib/                  # engine libraries (secrets/preflight/config/verify/deploy/panel/rollback…)
 │   ├── render_node_materials.py
 │   └── validate_skill_package.py
+├── tests/                    # zero-dependency bash tests (tests/run.sh runs all)
 └── skill/
     └── cross-border-ops-wizard/
         └── SKILL.md

@@ -57,7 +57,30 @@ For x-ui, verify:
 - panel is reachable only through the intended domain/path or protected route
 - administrator login works
 - generated team links use the public domain, not `127.0.0.1` or a temporary tunnel
+- generated VLESS links include the validated Reality SNI, default `www.apple.com`
 - credentials and links are recorded only in the sensitive handover material
+
+## Reality / Client Acceptance
+
+Check generated links:
+
+```text
+@<domain-or-ip>:443
+security=reality
+flow=xtls-rprx-vision
+sni=<validated_reality_sni>
+```
+
+For new nodes, the default target is `www.apple.com`. If older material still
+uses `www.microsoft.com`, treat it as a compatibility risk and verify the
+server-side Reality target before redistributing links.
+
+When changing Reality target/SNI, verify persistence:
+
+- server config has matching `dest` and `serverNames`
+- generated VLESS links have matching `sni`
+- desktop client disk config matches runtime config after restart
+- mobile clients or subscriptions have been re-imported
 
 ## Speed Checks
 
@@ -115,5 +138,44 @@ better-peered landing IP, or add a CN2/IPLC relay in front
 - x-ui links were copied from the wrong host or tunnel.
 - Service is healthy locally but blocked publicly.
 - Browser or client cached an old endpoint.
+- Local Clash/Mihomo fake-ip resolves the node domain to `198.18.0.0/16`.
+- Reality target/SNI mismatch causes immediate VLESS EOF even while ports are open.
+- Client config was hot-reloaded but not written to disk, then reverted after restart.
+
+## Incident Triage Harness
+
+When a node appears fully down, separate the layers before reinstalling:
+
+1. Services/listeners:
+
+```bash
+ssh <alias> 'systemctl is-active x-ui nginx firewalld sshd; ss -ltnp | grep -E ":(443|35178|35179|2096)"'
+ssh <alias> 'journalctl -u x-ui --since "-3 hours" --no-pager | tail -n 160'
+```
+
+2. Direct public path, bypassing local proxy/fake-ip:
+
+```bash
+curl --noproxy '*' -4sS -o /dev/null -w 'health=%{http_code} ip=%{remote_ip}\n' \
+  http://<domain>/healthz
+```
+
+3. Local DNS/proxy artifacts:
+
+```bash
+dig +short <domain>
+```
+
+If the local result is in `198.18.0.0/16`, re-check from the VPS or a direct
+path before changing the server.
+
+4. Reality EOF:
+
+```bash
+ssh <alias> 'journalctl -u x-ui -n 300 --no-pager | grep -E "REALITY|invalid connection|hs\\.c\\.conn|EOF" || true'
+```
+
+If every client gets immediate EOF while services and ports are healthy, check
+Reality target/SNI before regenerating keys or downgrading xray.
 
 When failures repeat, preserve the exact command and output in the runbook.
