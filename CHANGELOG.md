@@ -42,6 +42,10 @@ Versioning follows [SemVer](https://semver.org/). Each release is also a git tag
 
 > Note: some real-VPS specifics (exact 3x-ui setting flags, acme mode, port
 > behaviors) still require validation in the Task 12 real-VPS acceptance run.
+> Follow-up (2026-07-07): the engine has since been exercised on a real VPS
+> (v0.3.0 final-review hardening) and through a real production incident
+> (v0.3.1). Per-step acceptance status is recorded in
+> `docs/superpowers/plans/2026-06-26-one-click-node-engine.md` ("真机受入记录").
 
 ### Changed
 - Rewrote `SKILL.md` `description` to trigger-style ("Use when…"), dropped the

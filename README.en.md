@@ -36,15 +36,23 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 ```text
 .
 ├── README.md
+├── README.en.md
 ├── LICENSE
+├── CHANGELOG.md
+├── VERSION
+├── docs/
+│   └── superpowers/          # design spec + implementation plan for the engine
 ├── references/
 │   ├── documentation.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/
 │   ├── install.sh
+│   ├── node-wizard.sh        # one-click node engine entrypoint
+│   ├── lib/                  # engine libraries (secrets/preflight/config/verify/deploy/panel/rollback…)
 │   ├── render_node_materials.py
 │   └── validate_skill_package.py
+├── tests/                    # zero-dependency bash tests (tests/run.sh runs all)
 └── skill/
     └── cross-border-ops-wizard/
         └── SKILL.md
