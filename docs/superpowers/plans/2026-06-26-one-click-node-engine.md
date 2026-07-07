@@ -1091,3 +1091,25 @@ git tag -a v0.3.0 -m "v0.3.0: one-click node-wizard engine"
 - **spec 覆盖**：六个子命令✅(Task2/7/8/9/10)；preflight 半自动闸门✅(Task5/8)；面板默认本机 + 按需网关✅(Task6/9)；per-node 秘密✅(Task3)；幂等✅(deploy 检测/重跑, Task8/12)；回滚✅(Task10)；秘密文件 600 + 不打印私钥✅(Task8 emit + test)；跨 agent 打包✅(Task11)；验收标准✅(Task12)。
 - **占位符**：无 TBD/TODO；每个 code step 给了完整代码。
 - **类型/命名一致**：`gen_reality_keys`→"PRIV PUB"、`build_vless_link <uuid> <host> <pubkey> <sid>`、`build_sub_url <domain> <path>`、`preflight_gate <domain> <port...>`、`verify_summarize "name:0/1"`、env 字段 `UUID/REALITY_PRIVATE/REALITY_PUBLIC/SHORT_ID/WEB_PATH/BASIC_AUTH` 在 Task8 写入与 Task10 读取一致。
+
+---
+
+## 真机受入记录（2026-07-07 补档）
+
+Task 1–11 已全部完成（commit `582eff0`…`1504077`，见 git log）。Task 12 各步实际状态如下，
+依据为仓库内 commit 证据，未跑过的步骤如实标注：
+
+| 步骤 | 状态 | 依据 |
+|---|---|---|
+| Step 1–2 真机 deploy 到 `ALL PASS` | ✅ 已在真实 VPS 上跑过 | `6f76377`（2026-06-26 real-VPS final review hardening）即来自真机部署走查 |
+| Step 3 幂等重跑 | ⚠️ 部分验证 | 真机重跑暴露了秘密重生成 bug 并已修复（`6f76377`），修复后无一次正式的"重跑仍 ALL PASS"留档；逻辑由 `test_deploy_dryrun.sh` 覆盖 |
+| Step 4 DNS 错误闸门 | ⚠️ 未真机验证 | 逻辑由 `test_preflight.sh` 覆盖 |
+| Step 5 panel-open/close | ⚠️ 未真机留档 | 逻辑由 `test_panel.sh` 覆盖 |
+| Step 6 客户端导入订阅可用 | ✅ 生产在用 | v0.3.1 事故（2026-06-28，`e477baa`）本身即真实客户端在用节点的故障与修复，节点恢复可用 |
+| Step 7 rollback 无残留 | ⚠️ 未真机验证 | 逻辑由 `test_rollback.sh` 覆盖 |
+| Step 8 stdout 无私钥 | ⚠️ 未真机专项检查 | 由 `test_redact.sh` + deploy emit 设计覆盖 |
+| Step 9 合入 main 并推 tags | ✅ 2026-07-07 完成 | 本次收口：feature 分支 ff 合入 main，补 `v0.3.0` tag |
+
+结论：引擎已经过真实 VPS 部署与一次真实生产事故的检验（v0.3.1 即事故硬化产物），
+核心路径可用；Step 4/5/7/8 的真机专项验证未正式执行，逻辑均有单元测试覆盖，
+下次开一次性 VPS 时可按上表补跑。

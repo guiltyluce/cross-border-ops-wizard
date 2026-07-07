@@ -36,15 +36,23 @@
 ```text
 .
 ├── README.md
+├── README.en.md
 ├── LICENSE
+├── CHANGELOG.md
+├── VERSION
+├── docs/
+│   └── superpowers/          # 一键引擎的设计 spec 与实施计划
 ├── references/
 │   ├── documentation.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/
 │   ├── install.sh
+│   ├── node-wizard.sh        # 一键起节点引擎入口
+│   ├── lib/                  # 引擎库（secrets/preflight/config/verify/deploy/panel/rollback…）
 │   ├── render_node_materials.py
 │   └── validate_skill_package.py
+├── tests/                    # 零依赖 bash 测试（tests/run.sh 一键全跑）
 └── skill/
     └── cross-border-ops-wizard/
         └── SKILL.md
