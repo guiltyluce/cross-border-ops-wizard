@@ -2,9 +2,9 @@
 
 中文 | [English](README.en.md)
 
-当前版本：`0.3.1`
+当前版本：`0.4.0`
 
-`cross-border-ops-wizard` 是一个面向团队跨境工具运维的 VPS 纳管 Skill。典型场景是拿到一台**新开的境外 VPS（任意云厂商）**后，快速完成主机纳管、域名解析、证书配置、x-ui / 3x-ui 管理界面部署、健康检查、团队交付和后续维护。**腾讯云 Lighthouse 作为内置 profile**，其他云按同一套流程纳管。
+`cross-border-ops-wizard` 是一个面向团队跨境工具运维的访问资产纳管 Skill。它既覆盖新开境外 VPS 的主机、DNS、证书、x-ui / 3x-ui、节点交付与维护，也覆盖新购家宽/静态代理从验真到 AdsPower、RoxyBrowser 全局代理和浏览器环境关联的完整流程。**腾讯云 Lighthouse 作为 VPS 内置 profile**，其他云和代理服务商按同一套资产模型纳管。
 
 它聚焦“开机能部署、部署后能验收、交付后能维护”的完整流程，并适配 **Claude Code、Codex、WorkBuddy、OpenClaw** 等多种智能体。仓库只保留方法、模板和检查脚本，不包含真实服务器凭据、后台地址或私有链接。
 
@@ -16,6 +16,8 @@
 - DNS、证书、HTTPS 网关、面板入口和健康检查配置。
 - 节点不可达、证书异常、端口不通、下载慢/丢包/线路差等问题排查。
 - VLESS/Reality EOF、Clash/Mihomo fake-ip、客户端热加载未持久化等复合故障排查。
+- 新购家宽/静态 IP 的代理连通性、真实出口和多 A 记录网关验收。
+- AdsPower / RoxyBrowser 全局代理入库、环境关联与浏览器内出口核对。
 - 为团队交接生成 runbook 和敏感信息清单。
 - 将跨境工具的部署、验收、交接和日常维护沉淀为可复用 SOP。
 
@@ -29,6 +31,7 @@
 - 公开/私有端口边界设计。
 - 服务状态、日志、网络连通性和团队可用性验收。
 - 本地 runbook 和敏感交付手册骨架生成。
+- 指纹浏览器代理的“全局入库 -> 环境关联 -> 实际出口 -> 关联回读”验收 SOP。
 - 变更前确认和回滚意识。
 
 ## 目录
@@ -44,6 +47,7 @@
 │   └── superpowers/          # 一键引擎的设计 spec 与实施计划
 ├── references/
 │   ├── documentation.md
+│   ├── fingerprint-browser-egress.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/

@@ -1,14 +1,13 @@
 ---
 name: cross-border-ops-wizard
-version: 0.3.1
-description: Use when turning a freshly provisioned overseas VPS into a working proxy node with an x-ui/3x-ui admin panel and team subscriptions. 触发：新 VPS 搭代理、部署 x-ui/3x-ui 面板、配置 DNS/证书/HTTPS 网关/防火墙边界、分发 VLESS/Reality 订阅、生成交付 runbook 与敏感手册；排查节点不可达、证书异常、端口不通、面板打不开、下载慢/丢包/线路差。适用任意云厂商（腾讯云 Lighthouse 为内置 profile），适配 Claude Code、Codex、WorkBuddy、OpenClaw 等智能体。
+description: Use when operating the cross-border access lifecycle from overseas VPS onboarding and x-ui/3x-ui/VLESS/Reality delivery through purchased residential/static proxy intake and AdsPower/RoxyBrowser profile configuration. 触发：新 VPS 搭代理、部署 x-ui/3x-ui、配置 DNS/证书/网关/防火墙、分发或排障节点、购买家宽/静态出口 IP 后验真、配置 AdsPower/RoxyBrowser 全局代理与窗口、核对浏览器实际出口、生成交付 runbook。适用任意云厂商与代理服务商，适配 Claude Code、Codex、WorkBuddy、OpenClaw 等智能体。
 ---
 
 # VPS 运维纳管魔法师 (cross-border-ops-wizard)
 
 GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross-border-ops-wizard)
 
-把一台**刚开好的境外 VPS** 从“裸机”推进到“x-ui/3x-ui 面板可用、团队能接入 VLESS/Reality 订阅、后续可维护”的状态。覆盖采购信息确认、主机纳管、DNS、证书、x-ui 部署、网关入口、端口边界、稳定性/线路检查和交接文档。
+覆盖跨境访问资产从入口到出口的完整生命周期：把境外 VPS 从“裸机”推进到可维护的 x-ui/3x-ui 与 VLESS/Reality 节点，也把新购家宽/静态代理推进到指纹浏览器全局代理、环境关联和实际出口验收。
 
 - **云厂商无关**：主流程不绑定具体厂商。腾讯云 Lighthouse 作为内置 profile（注意其云防火墙独立于系统防火墙、需在控制台单独放行，默认网卡 MTU 常为 8500）；其他云按同一套元组纳管。
 - **跨智能体**：本 SKILL.md 为标准格式，可装入 Claude Code / Codex / WorkBuddy / OpenClaw 的 skills 目录（见仓库 `scripts/install.sh`）。执行类操作统一放在 `scripts/` 下的纯 bash / python，不依赖某个 agent 的专有工具。
@@ -23,6 +22,8 @@ GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross
 - 配置 DNS、证书、HTTPS 网关、面板入口和健康检查。
 - 排查节点不可达、证书异常、端口不通、面板不可访问、下载慢/丢包/线路差。
 - 排查 VLESS/Reality 全线 EOF、Clash/Mihomo fake-ip、客户端配置热加载后重启回滚等复合故障。
+- 新购家宽或静态代理后，验真出口、处理代理域名多 A 记录，并配置 AdsPower/RoxyBrowser。
+- 修复“窗口能用但全局代理列表没有记录”或“代理已添加但未关联窗口”等资产关系问题。
 - 生成运维 runbook、交付手册、敏感信息清单。
 - 对已有节点做阶段性验收和交接。
 
@@ -55,7 +56,10 @@ GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross
    - 参考 `references/verification.md` 执行服务、端口、HTTP/TLS、速度和日志检查。
    - 用户反馈“下载慢/卡”时，按 verification.md 的“线路与丢包诊断”分段定位（先排除服务端，再看 VPS↔客户端这一段的丢包/路由），不要只看客户端测速数字。
    - VLESS/Reality 故障按 verification.md 的事故排查顺序分层处理，不要先重装或重生密钥。
-6. 文档：
+6. 出口 IP 与指纹浏览器（按需）：
+   - 新购家宽/静态代理或需要修复浏览器代理关联时，读取 `references/fingerprint-browser-egress.md`。
+   - 必须按“全局代理库 -> 环境/窗口关联 -> 浏览器内实际出口 -> 全局关联回读”验收，不以控制台代理测试代替最终验收。
+7. 文档：
    - 参考 `references/documentation.md` 输出 runbook、敏感交付手册和操作命令。
    - 使用 `scripts/render_node_materials.py` 生成本地材料骨架。
 

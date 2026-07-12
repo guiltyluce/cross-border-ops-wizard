@@ -2,9 +2,9 @@
 
 [中文](README.md) | English
 
-Current version: `0.3.1`
+Current version: `0.4.0`
 
-`cross-border-ops-wizard` is a VPS operations Skill for teams maintaining cross-border tooling. A typical use case starts with a **freshly provisioned overseas VPS (any cloud provider)**, then proceeds through host onboarding, DNS, certificates, x-ui / 3x-ui admin panel deployment, health checks, team handover, and ongoing maintenance. **Tencent Cloud Lighthouse ships as a built-in profile**; other clouds use the same flow.
+`cross-border-ops-wizard` manages the access-asset lifecycle for teams maintaining cross-border tooling. It covers freshly provisioned overseas VPS hosts, DNS, certificates, x-ui / 3x-ui, node delivery, and maintenance. It also covers newly purchased residential/static proxies from validation through AdsPower or RoxyBrowser global inventory, profile association, and in-browser exit verification. **Tencent Cloud Lighthouse ships as a VPS profile**; other clouds and proxy providers use the same asset model.
 
 It focuses on the full path from "provisioned" to "deployed, verified, handed over, and maintainable", and works across **Claude Code, Codex, WorkBuddy, and OpenClaw**. This repository only contains methods, templates, and check scripts; it does not contain real server credentials, admin URLs, or private links.
 
@@ -16,6 +16,8 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - Configure DNS, certificates, HTTPS gateway, panel entry, and health checks.
 - Troubleshoot unreachable nodes, certificate issues, closed ports, and slow/lossy paths.
 - Triage VLESS/Reality EOF, Clash/Mihomo fake-ip, and client hot-reload persistence failures.
+- Validate a purchased residential/static proxy, its observed exit, and multi-A gateway health.
+- Add reusable proxies to AdsPower/RoxyBrowser, associate profiles, and verify the in-browser exit.
 - Generate a team handover runbook and sensitive-information checklist.
 - Turn deployment, verification, handover, and maintenance into a reusable SOP.
 
@@ -29,6 +31,7 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - Public/private port boundary design.
 - Service, log, network, and team-availability verification.
 - Local runbook and sensitive handover skeleton generation.
+- Fingerprint-browser acceptance from global inventory through profile association and readback.
 - Confirmation and rollback discipline before changes.
 
 ## Repository Layout
@@ -44,6 +47,7 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 │   └── superpowers/          # design spec + implementation plan for the engine
 ├── references/
 │   ├── documentation.md
+│   ├── fingerprint-browser-egress.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/

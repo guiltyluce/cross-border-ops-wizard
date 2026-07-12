@@ -3,6 +3,20 @@
 All notable changes to `cross-border-ops-wizard` are documented here.
 Versioning follows [SemVer](https://semver.org/). Each release is also a git tag.
 
+## [0.4.0] - 2026-07-12
+
+### Added
+- Fingerprint-browser egress onboarding for purchased residential/static proxies.
+- Global-first AdsPower and RoxyBrowser workflows with profile-association readback.
+- Multi-A proxy gateway diagnosis and in-browser exit acceptance criteria.
+- Regression test for the global-proxy and credential-safety contract.
+
+### Changed
+- Expanded the Skill from VPS-only onboarding to the connected lifecycle of VPS
+  nodes, purchased exits, and fingerprint-browser environments.
+- Moved version tracking exclusively to `VERSION` and `CHANGELOG.md` so the
+  Skill frontmatter follows the current schema.
+
 ## [0.3.1] - 2026-06-29
 
 ### Fixed

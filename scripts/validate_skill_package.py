@@ -88,6 +88,11 @@ def build_package(root: Path, skill_name: str, staging_parent: Path) -> Path:
 
 def validate_frontmatter(skill_md: Path, skill_name: str) -> None:
     data, _ = parse_frontmatter(skill_md)
+    unexpected = sorted(set(data) - {"name", "description"})
+    if unexpected:
+        raise ValidationError(
+            "Unexpected SKILL.md frontmatter keys: " + ", ".join(unexpected)
+        )
     name = data["name"]
     if not NAME_RE.fullmatch(name):
         raise ValidationError(f"Skill name '{name}' must be lowercase hyphen-case.")
