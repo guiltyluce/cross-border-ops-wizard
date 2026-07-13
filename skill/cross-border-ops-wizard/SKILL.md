@@ -5,7 +5,7 @@ description: Use when operating the cross-border access lifecycle from overseas 
 
 # VPS 运维纳管魔法师 (cross-border-ops-wizard)
 
-GitHub: [guiltyluce/cross-border-ops-wizard](https://github.com/guiltyluce/cross-border-ops-wizard)
+GitHub: [wetlink/cross-border-ops-wizard](https://github.com/wetlink/cross-border-ops-wizard)
 
 覆盖跨境访问资产从入口到出口的完整生命周期：把境外 VPS 从“裸机”推进到可维护的 x-ui/3x-ui 与 VLESS/Reality 节点，也把新购家宽/静态代理推进到指纹浏览器全局代理、环境关联和实际出口验收。
 
