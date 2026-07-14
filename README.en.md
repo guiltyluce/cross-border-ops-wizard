@@ -2,9 +2,9 @@
 
 [中文](README.md) | English
 
-Current version: `0.4.0`
+Current version: `0.5.0`
 
-`cross-border-ops-wizard` manages the access-asset lifecycle for teams maintaining cross-border tooling. It covers freshly provisioned overseas VPS hosts, DNS, certificates, x-ui / 3x-ui, node delivery, and maintenance. It also covers newly purchased residential/static proxies from validation through AdsPower or RoxyBrowser global inventory, profile association, and in-browser exit verification. **Tencent Cloud Lighthouse ships as a VPS profile**; other clouds and proxy providers use the same asset model.
+`cross-border-ops-wizard` manages the access-asset lifecycle for teams maintaining cross-border tooling. It covers freshly provisioned overseas VPS hosts, DNS, certificates, x-ui / 3x-ui, node delivery, and maintenance. It also covers newly purchased residential/static proxies from validation through client-specific VPS egress and mobile VLESS delivery to AdsPower, RoxyBrowser, or BitBrowser profile association and in-browser exit verification. **Tencent Cloud Lighthouse ships as a VPS profile**; other clouds and proxy providers use the same asset model.
 
 It focuses on the full path from "provisioned" to "deployed, verified, handed over, and maintainable", and works across **Claude Code, Codex, WorkBuddy, and OpenClaw**. This repository only contains methods, templates, and check scripts; it does not contain real server credentials, admin URLs, or private links.
 
@@ -17,7 +17,9 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - Troubleshoot unreachable nodes, certificate issues, closed ports, and slow/lossy paths.
 - Triage VLESS/Reality EOF, Clash/Mihomo fake-ip, and client hot-reload persistence failures.
 - Validate a purchased residential/static proxy, its observed exit, and multi-A gateway health.
-- Add reusable proxies to AdsPower/RoxyBrowser, associate profiles, and verify the in-browser exit.
+- Add a client-specific purchased exit behind an existing VLESS/Reality VPS.
+- Add reusable proxies to AdsPower/RoxyBrowser/BitBrowser, associate profiles, and verify the in-browser exit.
+- Handle AdsPower loopback-check false negatives with a persistent local Xray sidecar.
 - Generate a team handover runbook and sensitive-information checklist.
 - Turn deployment, verification, handover, and maintenance into a reusable SOP.
 
@@ -28,6 +30,7 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 - DNS and certificate checks.
 - x-ui admin-panel deployment flow, entry model, and account handover boundaries.
 - One-click node engine `scripts/node-wizard.sh` (deploy/verify/panel-open/panel-close/links/rollback).
+- 3x-ui 3.x chained-egress tool `scripts/xui_chain_egress.py` (dry-run, backup, idempotent writes, forced restart, runtime readback, and end-to-end exit verification).
 - Public/private port boundary design.
 - Service, log, network, and team-availability verification.
 - Local runbook and sensitive handover skeleton generation.
@@ -47,12 +50,14 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 │   └── superpowers/          # design spec + implementation plan for the engine
 ├── references/
 │   ├── documentation.md
+│   ├── chain-egress.md
 │   ├── fingerprint-browser-egress.md
 │   ├── sop.md
 │   └── verification.md
 ├── scripts/
 │   ├── install.sh
 │   ├── node-wizard.sh        # one-click node engine entrypoint
+│   ├── xui_chain_egress.py   # 3x-ui chained egress and local sidecar
 │   ├── lib/                  # engine libraries (secrets/preflight/config/verify/deploy/panel/rollback…)
 │   ├── render_node_materials.py
 │   └── validate_skill_package.py
@@ -67,6 +72,8 @@ It focuses on the full path from "provisioned" to "deployed, verified, handed ov
 ```bash
 python3 scripts/validate_skill_package.py
 python3 scripts/render_node_materials.py --help
+python3 scripts/xui_chain_egress.py --help
+tests/run.sh
 ```
 
 ## Skill Installation (multi-agent, one shot)

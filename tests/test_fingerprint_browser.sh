@@ -14,6 +14,9 @@ assert_contains "global-first contract" "$content" "global proxy inventory"
 assert_contains "in-browser verification" "$content" "fresh readback from inside the opened browser profile"
 assert_contains "Roxy association check" "$content" "已关联窗口"
 assert_contains "AdsPower workflow" "$content" "## 6. AdsPower"
+assert_contains "BitBrowser workflow" "$content" "## 7. BitBrowser"
+assert_contains "local sidecar fallback" "$content" "local Xray sidecar"
+assert_contains "manager checker is not authoritative" "$content" "not authoritative"
 assert_contains "skill routes to module" "$(cat "$skill")" "references/fingerprint-browser-egress.md"
 
 if printf '%s\n' "$content" | grep -Eq '(^|[^0-9])([0-9]{1,3}\.){3}[0-9]{1,3}([^0-9]|$)'; then

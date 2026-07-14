@@ -128,7 +128,41 @@ record, saving, reopening, and verifying the association.
 If the edition only supports per-environment proxy input, record that limitation
 in the private runbook and use the same naming and acceptance checks.
 
-## 7. Acceptance Harness
+When AdsPower cannot reach a provider gateway directly, route the environment
+through a verified local Xray sidecar backed by the VPS VLESS client. AdsPower's
+manager check for a loopback proxy is not authoritative: it may show a blank IP
+or failure even while the browser can use the route. Keep the sidecar bound to
+`localhost`, make it persistent, and accept the environment only after an
+in-browser IP echo returns the expected exit.
+
+## 7. BitBrowser
+
+1. Add the proxy to the shared proxy inventory before creating the browser.
+2. Test authentication and record the observed exit IP and region.
+3. Create a stable environment name and select the saved proxy record.
+4. Keep the fingerprint OS, timezone, locale, geolocation, and WebRTC policy
+   aligned with the intended account context.
+5. Open the environment and verify the public IP from inside BitBrowser.
+6. Return to the inventory/profile list and confirm the proxy association.
+
+If a provider protocol works on the VPS but not from the local machine, use a
+local Xray sidecar backed by the verified VLESS route instead of repeatedly
+changing browser proxy fields. Record that indirection in the private asset
+runbook.
+
+## 8. Capacity And Lifecycle
+
+- Record profile-count limits for free or trial editions before creating more
+  environments. A successful proxy addition does not guarantee another profile
+  can be created.
+- Reuse the same stable profile for a long-lived account; opening and closing a
+  profile is not the same as creating a new profile.
+- When a provider replaces an IP, mark the old asset as replaced or pending
+  retirement. Do not silently overwrite its history.
+- Keep global proxy records, browser profiles, VLESS clients, and the asset
+  inventory linked by stable non-secret names.
+
+## 9. Acceptance Harness
 
 Capture fresh evidence for every onboarding or repair:
 
@@ -152,6 +186,7 @@ When a result is wrong, diagnose in this order:
 5. local system proxy, Clash/Mihomo, or chain-routing interference
 6. browser DNS/WebRTC leakage
 7. stale profile state or cached dashboard result
+8. local sidecar process stopped or listening on the wrong port
 
 Do not declare completion from a control-panel test alone. Completion requires
 a fresh readback from inside the opened browser profile and a global-association

@@ -17,6 +17,8 @@ destination.
 - DNS record
 - x-ui deployment status and management entry model
 - Reality SNI/dest and whether the target was validated from a real client path
+- chained-exit architecture, client email, and outbound tag when present
+- whether the persisted template and runtime config survived a force restart
 - public/private port model
 - gateway and certificate layout
 - verification commands and expected results
@@ -32,6 +34,7 @@ destination.
 - credential storage locations
 - private links or tokens only when approved
 - client persistence notes when Clash/Mihomo or mobile clients must be updated
+- mode-0600 location of generated VLESS links or local sidecar config
 - common troubleshooting
 - next-stage suggestions
 
@@ -46,6 +49,8 @@ When finishing a node, report:
 - DNS and certificate result
 - x-ui panel and team access verification result
 - Reality target/SNI verification result
+- chained-exit end-to-end result after a force restart, when applicable
+- fingerprint-browser in-profile exit result and global association readback
 - public/private port exposure
 - verification summary
 - local docs created

@@ -82,6 +82,23 @@ When changing Reality target/SNI, verify persistence:
 - desktop client disk config matches runtime config after restart
 - mobile clients or subscriptions have been re-imported
 
+## Client-Specific Chained Egress
+
+For `client -> VLESS VPS -> purchased proxy` routes, API success and a live
+hot-loaded connection are intermediate evidence only. Follow the full gate in
+`references/chain-egress.md`:
+
+1. Verify the purchased proxy from the VPS and match the expected exit IP.
+2. Read back the 3x-ui client attachment and persisted Xray template.
+3. Force restart Xray through the panel API.
+4. Read the generated runtime config and confirm the client, outbound tag, and
+   routing rule all remain present.
+5. Start a real client or temporary local sidecar and run an end-to-end public
+   IP check through the generated VLESS link.
+
+Do not substitute the panel's outbound test for step 5. It proves the upstream
+proxy can connect, not that the intended VLESS client selects that outbound.
+
 ## Speed Checks
 
 Separate directions:

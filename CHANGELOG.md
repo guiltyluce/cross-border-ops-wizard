@@ -3,6 +3,32 @@
 All notable changes to `cross-border-ops-wizard` are documented here.
 Versioning follows [SemVer](https://semver.org/). Each release is also a git tag.
 
+## [0.5.0] - 2026-07-14
+
+### Added
+- `scripts/xui_chain_egress.py` for 3x-ui 3.x client-specific chained exits,
+  including dry-run, remote database backup, idempotent client/outbound/routing
+  writes, official client-link export, forced restart, runtime readback, and
+  optional end-to-end exit verification.
+- Local Xray SOCKS sidecar rendering from a VLESS/Reality link, with optional
+  macOS LaunchAgent generation for fingerprint browsers that cannot reach the
+  provider gateway directly.
+- A chained-egress reference covering private env schemas, persistence gates,
+  asset fields, and failure recovery.
+- BitBrowser onboarding and browser-edition capacity/lifecycle guidance.
+- Regression tests for the 3x-ui form endpoint, client API paths, idempotent
+  template merge, sidecar rendering, sensitive-file permissions, and release
+  metadata synchronization.
+
+### Changed
+- Made a force restart plus generated runtime-config readback mandatory for
+  chained routes; a successful hot apply is no longer accepted as persistence.
+- Made in-browser public-IP verification authoritative when AdsPower or another
+  manager reports a false negative for a loopback sidecar.
+- Expanded asset handover guidance with first-hop VPS, outbound tag, VLESS
+  client, browser environment, replacement relationship, and write-readback
+  fields.
+
 ## [0.4.0] - 2026-07-12
 
 ### Added
